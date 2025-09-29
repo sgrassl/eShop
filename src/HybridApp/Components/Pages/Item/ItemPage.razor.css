@@ -12,6 +12,7 @@ p:first-of-type {
 
 img {
     width: 25rem;
+    border-radius: 0.5rem;
 }
 
 .description {
@@ -45,9 +46,9 @@ img {
     background-color: #666;
 }
 
-    .add-to-cart button:active {
-        background-color: #333;
-    }
+.add-to-cart button:active {
+    background-color: #333;
+}
 
 a {
     color: black;

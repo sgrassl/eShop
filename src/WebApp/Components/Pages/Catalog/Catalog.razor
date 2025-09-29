@@ -5,7 +5,8 @@
 
 <PageTitle>AdventureWorks</PageTitle>
 <SectionContent SectionName="page-header-title">Ready for a new adventure?</SectionContent>
-<SectionContent SectionName="page-header-subtitle">Start the season with the latest in clothing and equipment.</SectionContent>
+<SectionContent SectionName="page-header-subtitle">Start the season with the latest in clothing and equipment.
+</SectionContent>
 
 <div class="catalog">
     <CatalogSearch BrandId="@BrandId" ItemTypeId="@ItemTypeId" />
@@ -17,6 +18,17 @@
     else
     {
         <div>
+            <div class="page-size-selector">
+                <label for="page-size">Items per page:</label>
+                <select id="page-size" @onchange="OnPageSizeChanged">
+                    <option value="9" selected="@(CurrentPageSize == 9)">9</option>
+                    <option value="18" selected="@(CurrentPageSize == 18)">18</option>
+                    <option value="36" selected="@(CurrentPageSize == 36)">36</option>
+                    <option value="72" selected="@(CurrentPageSize == 72)">72</option>
+                    <option value="@TotalItems" selected="@(CurrentPageSize >= TotalItems)">All (@TotalItems)</option>
+                </select>
+            </div>
+
             <div class="catalog-items">
                 @foreach (var item in catalogResult.Data)
                 {
@@ -27,7 +39,8 @@
             <div class="page-links">
                 @foreach (var pageIndex in GetVisiblePageIndexes(catalogResult))
                 {
-                    <NavLink ActiveClass="active-page" Match="@NavLinkMatch.All" href="@Nav.GetUriWithQueryParameter("page", pageIndex == 1 ? null : pageIndex)">@pageIndex</NavLink>
+                    <NavLink ActiveClass="active-page" Match="@NavLinkMatch.All"
+                        href="@Nav.GetUriWithQueryParameter("page", pageIndex == 1 ? null : pageIndex)">@pageIndex</NavLink>
                 }
             </div>
         </div>
@@ -35,7 +48,7 @@
 </div>
 
 @code {
-    const int PageSize = 9;
+    const int DefaultPageSize = 9;
 
     [SupplyParameterFromQuery]
     public int? Page { get; set; }
@@ -46,17 +59,45 @@
     [SupplyParameterFromQuery(Name = "type")]
     public int? ItemTypeId { get; set; }
 
-    CatalogResult? catalogResult;
+    [SupplyParameterFromQuery(Name = "pagesize")]
+    public int? PageSizeParam { get; set; }
 
-    static IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
-        => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / PageSize));
+    CatalogResult? catalogResult;
+    int CurrentPageSize => PageSizeParam ?? DefaultPageSize;
+    int TotalItems => catalogResult?.Count ?? 101;
+    int EffectivePageSize => CurrentPageSize >= TotalItems ? TotalItems : CurrentPageSize;
+
+    IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
+    => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / EffectivePageSize));
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadCatalogItems();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadCatalogItems();
+    }
+
+    private async Task LoadCatalogItems()
+    {
         catalogResult = await CatalogService.GetCatalogItems(
-            Page.GetValueOrDefault(1) - 1,
-            PageSize,
-            BrandId,
-            ItemTypeId);
+        Page.GetValueOrDefault(1) - 1,
+        EffectivePageSize,
+        BrandId,
+        ItemTypeId);
+    }
+
+    private void OnPageSizeChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var newPageSize))
+        {
+            Nav.NavigateTo(Nav.GetUriWithQueryParameters(new Dictionary<string, object?>
+            {
+                ["pagesize"] = newPageSize == DefaultPageSize ? null : newPageSize,
+                ["page"] = null // Reset to first page when changing page size
+            }));
+        }
     }
 }

@@ -36,7 +36,7 @@ public class CatalogItemViewModelTests
         var CatalogItemViewModel = new CatalogItemViewModel(_appEnvironmentService, _navigationService);
         Assert.IsNotNull(CatalogItemViewModel.AddCatalogItemCommand);
     }
-    
+
     [TestMethod]
     public async Task AddCatalogItemCommandSendsAddProductMessageTest()
     {
@@ -44,8 +44,8 @@ public class CatalogItemViewModelTests
 
         var catalogItemViewModel = new CatalogItemViewModel(_appEnvironmentService, _navigationService);
 
-        catalogItemViewModel.CatalogItem = new CatalogItem {Id = 123, Name = "test", Price = 1.23m,};
-        
+        catalogItemViewModel.CatalogItem = new CatalogItem { Id = 123, Name = "test", Price = 1.99m, };
+
         WeakReferenceMessenger.Default
             .Register<CatalogItemViewModelTests, ProductCountChangedMessage>(
                 this,
@@ -53,7 +53,7 @@ public class CatalogItemViewModelTests
                 {
                     messageReceived = true;
                 });
-        
+
         await catalogItemViewModel.AddCatalogItemCommand.ExecuteUntilComplete();
 
         Assert.IsTrue(messageReceived);

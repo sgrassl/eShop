@@ -3,7 +3,7 @@
 <views:ContentPageBase
     x:Class="eShop.ClientApp.Views.OrderDetailView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x                        Text="{Binding Order.Total, StringFormat='€{0:N2}'"lns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animations="clr-namespace:eShop.ClientApp.Animations"
     xmlns:templates="clr-namespace:eShop.ClientApp.Views.Templates"
     xmlns:triggers="clr-namespace:eShop.ClientApp.Triggers"
@@ -124,7 +124,7 @@
                     Grid.Row="4"
                     Grid.Column="0"
                     Style="{StaticResource OrderContentStyle}"
-                    Text="{Binding Order.Total, StringFormat='${0:N2}'}" />
+                    Text="{Binding Order.Total, StringFormat='€{0:N2}'}" />
 
                 <Label
                     Grid.Row="0"

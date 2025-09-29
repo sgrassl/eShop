@@ -360,18 +360,20 @@ public sealed class CatalogApiTests : IClassFixture<CatalogApiFixture>
     {
         var _httpClient = CreateHttpClient(new ApiVersion(version));
 
-        var id = version switch {
+        var id = version switch
+        {
             1.0 => 10015,
             2.0 => 10016,
             _ => 0
         };
 
         // Act - 1
-        var bodyContent = new CatalogItem {
+        var bodyContent = new CatalogItem
+        {
             Id = id,
             Name = "TestCatalog1",
             Description = "Test catalog description 1",
-            Price = 11000.08m,
+            Price = 11000.99m,
             PictureFileName = null,
             CatalogTypeId = 8,
             CatalogType = null,
@@ -403,7 +405,8 @@ public sealed class CatalogApiTests : IClassFixture<CatalogApiFixture>
     {
         var _httpClient = CreateHttpClient(new ApiVersion(version));
 
-        var id = version switch {
+        var id = version switch
+        {
             1.0 => 5,
             2.0 => 6,
             _ => 0

@@ -86,7 +86,7 @@
                 <Label
                     Grid.Column="0"
                     Style="{StaticResource OrderItemUnitPriceStyle}"
-                    Text="{Binding UnitPrice, StringFormat='${0:N2}'}" />
+                    Text="{Binding UnitPrice, StringFormat='€{0:N2}'}" />
                 <!--  QUANTITY  -->
                 <Label
                     Grid.Column="1"
@@ -97,7 +97,7 @@
             <Label
                 Grid.Row="2"
                 Style="{StaticResource OrderTotalStyle}"
-                Text="{Binding Total, StringFormat='${0:N2}'}" />
+                Text="{Binding Total, StringFormat='€{0:N2}'}" />
             <!--  DELETE BUTTON IF ON DESKTOP  -->
             <Button
                 Grid.Row="2"
@@ -118,7 +118,7 @@
                 HeightRequest="60"
                 HorizontalOptions="Fill"
                 HorizontalTextAlignment="Center"
-                Text="{Binding OldUnitPrice, StringFormat='Note that the price of this article changed in our Catalog. The old price when you originally added it to the basket was $ {0:N2}'}"
+                Text="{Binding OldUnitPrice, StringFormat='Note that the price of this article changed in our Catalog. The old price when you originally added it to the basket was € {0:N2}'}"
                 VerticalOptions="Fill"
                 VerticalTextAlignment="Center" />
         </Grid>

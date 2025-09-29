@@ -12,7 +12,7 @@ public class OrderAggregateTest
     [TestMethod]
     public void Create_order_item_success()
     {
-        //Arrange    
+        //Arrange
         var productId = 1;
         var productName = "FakeProductName";
         var unitPrice = 12;
@@ -20,7 +20,7 @@ public class OrderAggregateTest
         var pictureUrl = "FakeUrl";
         var units = 5;
 
-        //Act 
+        //Act
         var fakeOrderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
 
         //Assert
@@ -30,7 +30,7 @@ public class OrderAggregateTest
     [TestMethod]
     public void Invalid_number_of_units()
     {
-        //Arrange    
+        //Arrange
         var productId = 1;
         var productName = "FakeProductName";
         var unitPrice = 12;
@@ -45,22 +45,22 @@ public class OrderAggregateTest
     [TestMethod]
     public void Invalid_total_of_order_item_lower_than_discount_applied()
     {
-        //Arrange    
+        //Arrange
         var productId = 1;
         var productName = "FakeProductName";
         var unitPrice = 12;
         var discount = 15;
         var pictureUrl = "FakeUrl";
         var units = 1;
-        
+
         //Act - Assert
-        Assert.ThrowsException<OrderingDomainException>(() => new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units));       
+        Assert.ThrowsException<OrderingDomainException>(() => new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units));
     }
 
     [TestMethod]
     public void Invalid_discount_setting()
     {
-        //Arrange    
+        //Arrange
         var productId = 1;
         var productName = "FakeProductName";
         var unitPrice = 12;
@@ -68,7 +68,7 @@ public class OrderAggregateTest
         var pictureUrl = "FakeUrl";
         var units = 5;
 
-        //Act 
+        //Act
         var fakeOrderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
 
         //Assert
@@ -78,7 +78,7 @@ public class OrderAggregateTest
     [TestMethod]
     public void Invalid_units_setting()
     {
-        //Arrange    
+        //Arrange
         var productId = 1;
         var productName = "FakeProductName";
         var unitPrice = 12;
@@ -86,7 +86,7 @@ public class OrderAggregateTest
         var pictureUrl = "FakeUrl";
         var units = 5;
 
-        //Act 
+        //Act
         var fakeOrderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
 
         //Assert
@@ -98,11 +98,11 @@ public class OrderAggregateTest
     {
         var address = new AddressBuilder().Build();
         var order = new OrderBuilder(address)
-            .AddOne(1, "cup", 10.0m, 0, string.Empty)
-            .AddOne(1, "cup", 10.0m, 0, string.Empty)
+            .AddOne(1, "cup", 10.99m, 0, string.Empty)
+            .AddOne(1, "cup", 10.99m, 0, string.Empty)
             .Build();
 
-        Assert.AreEqual(20.0m, order.GetTotal());
+        Assert.AreEqual(21.98m, order.GetTotal());
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public class OrderAggregateTest
         var cardExpiration = DateTime.UtcNow.AddYears(1);
         var expectedResult = 1;
 
-        //Act 
+        //Act
         var fakeOrder = new Order("1", "fakeName", new Address(street, city, state, country, zipcode), cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
 
         //Assert
@@ -131,7 +131,7 @@ public class OrderAggregateTest
     [TestMethod]
     public void Add_event_Order_explicitly_raises_new_event()
     {
-        //Arrange   
+        //Arrange
         var street = "fakeStreet";
         var city = "FakeCity";
         var state = "fakeState";
@@ -144,7 +144,7 @@ public class OrderAggregateTest
         var cardExpiration = DateTime.UtcNow.AddYears(1);
         var expectedResult = 2;
 
-        //Act 
+        //Act
         var fakeOrder = new Order("1", "fakeName", new Address(street, city, state, country, zipcode), cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
         fakeOrder.AddDomainEvent(new OrderStartedDomainEvent(fakeOrder, "fakeName", "1", cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration));
         //Assert
@@ -154,7 +154,7 @@ public class OrderAggregateTest
     [TestMethod]
     public void Remove_event_Order_explicitly()
     {
-        //Arrange    
+        //Arrange
         var street = "fakeStreet";
         var city = "FakeCity";
         var state = "fakeState";
@@ -169,7 +169,7 @@ public class OrderAggregateTest
         var @fakeEvent = new OrderStartedDomainEvent(fakeOrder, "1", "fakeName", cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
         var expectedResult = 1;
 
-        //Act         
+        //Act
         fakeOrder.AddDomainEvent(@fakeEvent);
         fakeOrder.RemoveDomainEvent(@fakeEvent);
         //Assert

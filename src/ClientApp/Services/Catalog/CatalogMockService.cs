@@ -5,10 +5,10 @@ namespace eShop.ClientApp.Services.Catalog;
 public class CatalogMockService : ICatalogService
 {
     private static readonly List<CatalogBrand> MockCatalogBrands =
-        new() {new CatalogBrand {Id = 1, Brand = "Azure"}, new CatalogBrand {Id = 2, Brand = "Visual Studio"}};
+        new() { new CatalogBrand { Id = 1, Brand = "Azure" }, new CatalogBrand { Id = 2, Brand = "Visual Studio" } };
 
     private static readonly List<CatalogType> MockCatalogTypes =
-        new() {new CatalogType {Id = 1, Type = "Mug"}, new CatalogType {Id = 2, Type = "T-Shirt"}};
+        new() { new CatalogType { Id = 1, Type = "Mug" }, new CatalogType { Id = 2, Type = "T-Shirt" } };
 
     private static readonly List<CatalogItem> MockCatalog =
         new()
@@ -18,7 +18,7 @@ public class CatalogMockService : ICatalogService
                 Id = Common.Common.MockCatalogItemId01,
                 PictureUri = "fake_product_01.png",
                 Name = "Adventurer GPS Watch",
-                Price = 199.99M,
+                Price = 179.99M,
                 CatalogBrandId = 2,
                 CatalogBrand = MockCatalogBrands[1],
                 CatalogTypeId = 2,
@@ -30,7 +30,7 @@ public class CatalogMockService : ICatalogService
                 Id = Common.Common.MockCatalogItemId02,
                 PictureUri = "fake_product_02.png",
                 Name = "AeroLite Cycling Helmet",
-                Price = 129.99M,
+                Price = 116.99M,
                 CatalogBrandId = 2,
                 CatalogBrand = MockCatalogBrands[1],
                 CatalogTypeId = 2,
@@ -42,7 +42,7 @@ public class CatalogMockService : ICatalogService
                 Id = Common.Common.MockCatalogItemId03,
                 PictureUri = "fake_product_03.png",
                 Name = "Alpine AlpinePack Backpack",
-                Price = 129.00M,
+                Price = 116.99M,
                 CatalogBrandId = 2,
                 CatalogBrand = MockCatalogBrands[1],
                 CatalogTypeId = 2,
@@ -54,7 +54,7 @@ public class CatalogMockService : ICatalogService
                 Id = Common.Common.MockCatalogItemId04,
                 PictureUri = "fake_product_04.png",
                 Name = "Alpine Fusion Goggles",
-                Price = 79.99M,
+                Price = 71.99M,
                 CatalogBrandId = 2,
                 CatalogBrand = MockCatalogBrands[1],
                 CatalogTypeId = 1,
@@ -66,7 +66,7 @@ public class CatalogMockService : ICatalogService
                 Id = Common.Common.MockCatalogItemId05,
                 PictureUri = "fake_product_05.png",
                 Name = "Alpine PeakDown Jacket",
-                Price = 249.99M,
+                Price = 224.99M,
                 CatalogBrandId = 1,
                 CatalogBrand = MockCatalogBrands[0],
                 CatalogTypeId = 2,

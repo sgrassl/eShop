@@ -215,8 +215,8 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
                     Id = Guid.NewGuid().ToString(),
                     ProductId = 1,
                     ProductName = "Test Product 1",
-                    UnitPrice = 10.2m,
-                    OldUnitPrice = 9.8m,
+                    UnitPrice = 10.99m,
+                    OldUnitPrice = 9.99m,
                     Quantity = 2,
                     PictureUrl = Guid.NewGuid().ToString(),
                 }

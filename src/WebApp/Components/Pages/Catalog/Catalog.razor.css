@@ -90,6 +90,39 @@
     flex-grow: 1;
 }
 
+.page-size-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: flex-end;
+}
+
+.page-size-selector label {
+    color: #000;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.page-size-selector select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.page-size-selector select:hover {
+    border-color: #999;
+}
+
+.page-size-selector select:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
 .page-links {
     display: flex;
     align-items: center;
@@ -116,7 +149,7 @@
 }
 
 
-@media only screen and (max-width: 480px) { 
+@media only screen and (max-width: 480px) {
     .catalog {
         padding: 0 1rem;
         flex-direction: column;
@@ -128,7 +161,7 @@
     }
 }
 
-@media only screen and (min-width: 481px) and (max-width: 1024px) { 
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
     .catalog {
         padding: 0 3rem;
         flex-direction: column;

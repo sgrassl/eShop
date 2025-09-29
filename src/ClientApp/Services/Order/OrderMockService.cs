@@ -47,7 +47,7 @@ public class OrderMockService : IOrderService
             Discount = 15,
             ProductName = ".NET Bot Blue Sweatshirt (M)",
             Quantity = 1,
-            UnitPrice = 16.50M,
+            UnitPrice = 14.99M,
             PictureUrl = "fake_product_01.png"
         },
         new OrderItem
@@ -57,7 +57,7 @@ public class OrderMockService : IOrderService
             Discount = 0,
             ProductName = ".NET Bot Black Sweatshirt (M)",
             Quantity = 2,
-            UnitPrice = 19.95M,
+            UnitPrice = 17.99M,
             PictureUrl = "fake_product_03.png"
         }
     };
@@ -93,7 +93,7 @@ public class OrderMockService : IOrderService
             ShippingState = MockAdress.State,
             ShippingCountry = MockAdress.Country,
             ShippingStreet = MockAdress.Street,
-            Total = 36.46M
+            Total = 32.99M
         },
         new Models.Orders.Order
         {
@@ -111,7 +111,7 @@ public class OrderMockService : IOrderService
             ShippingState = MockAdress.State,
             ShippingCountry = MockAdress.Country,
             ShippingStreet = MockAdress.Street,
-            Total = 36.46M
+            Total = 32.99M
         },
         new Models.Orders.Order
         {
@@ -129,7 +129,7 @@ public class OrderMockService : IOrderService
             ShippingState = MockAdress.State,
             ShippingCountry = MockAdress.Country,
             ShippingStreet = MockAdress.Street,
-            Total = 36.46M
+            Total = 32.99M
         },
         new Models.Orders.Order
         {
@@ -147,7 +147,7 @@ public class OrderMockService : IOrderService
             ShippingState = MockAdress.State,
             ShippingCountry = MockAdress.Country,
             ShippingStreet = MockAdress.Street,
-            Total = 36.46M
+            Total = 32.99M
         }
     };
 
