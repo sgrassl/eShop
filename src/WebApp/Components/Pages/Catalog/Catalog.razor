@@ -25,7 +25,7 @@
                     <option value="18" selected="@(CurrentPageSize == 18)">18</option>
                     <option value="36" selected="@(CurrentPageSize == 36)">36</option>
                     <option value="72" selected="@(CurrentPageSize == 72)">72</option>
-                    <option value="@TotalItems" selected="@(CurrentPageSize >= TotalItems)">All (@TotalItems)</option>
+                    <option value="@MaxPageSize" selected="@(CurrentPageSize >= MaxPageSize)">All (@(MaxPageSize))</option>
                 </select>
             </div>
 
@@ -65,7 +65,9 @@
     CatalogResult? catalogResult;
     int CurrentPageSize => PageSizeParam ?? DefaultPageSize;
     int TotalItems => catalogResult?.Count ?? 101;
-    int EffectivePageSize => CurrentPageSize >= TotalItems ? TotalItems : CurrentPageSize;
+    const int MaxPageSize = 100; // Cap the maximum items per page
+    int EffectivePageSize => CurrentPageSize >= TotalItems ? Math.Min(TotalItems, MaxPageSize) : Math.Min(CurrentPageSize,
+    MaxPageSize);
 
     IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
     => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / EffectivePageSize));

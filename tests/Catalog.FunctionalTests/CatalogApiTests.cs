@@ -395,6 +395,8 @@ public sealed class CatalogApiTests : IClassFixture<CatalogApiFixture>
 
         // Assert - 1
         Assert.Equal(bodyContent.Id, addedItem.Id);
+        Assert.Equal(bodyContent.Price, addedItem.Price); // Verify price is stored and retrieved accurately
+        Assert.True(addedItem.Price > 0); // Additional business logic: price should be positive
 
     }
 

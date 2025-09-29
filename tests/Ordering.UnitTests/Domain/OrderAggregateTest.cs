@@ -102,6 +102,7 @@ public class OrderAggregateTest
             .AddOne(1, "cup", 10.99m, 0, string.Empty)
             .Build();
 
+        // 10.99m * 2 = 21.98m, so the expected total is 21.98m
         Assert.AreEqual(21.98m, order.GetTotal());
     }
 

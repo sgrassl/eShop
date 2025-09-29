@@ -18,7 +18,9 @@
     border: 0;
 }
 
-.catalog-product-image img {
+.catalog-product-image img,
+img.catalog-product-image,
+.catalog-product img {
     max-width: 100%;
     border-radius: 0.5rem;
 }
