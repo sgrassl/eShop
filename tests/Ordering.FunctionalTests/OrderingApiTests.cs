@@ -215,12 +215,45 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
                     Id = Guid.NewGuid().ToString(),
                     ProductId = 1,
                     ProductName = "Test Product 1",
-                    UnitPrice = 10.2m,
-                    OldUnitPrice = 9.8m,
+                    UnitPrice = 10.99m,
+                    OldUnitPrice = 9.99m,
                     Quantity = 2,
                     PictureUrl = Guid.NewGuid().ToString(),
                 }
             });
+    }
+
+    [Fact]
+    public async Task CreateOrderDraftWithDecimalPriceReturnsCorrectTotal()
+    {
+        var payload = new CreateOrderDraftCommand(
+            BuyerId: Guid.NewGuid().ToString(),
+            new List<BasketItem>()
+            {
+                new BasketItem()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ProductId = 2,
+                    ProductName = "Decimal Product",
+                    UnitPrice = 10.99m,
+                    OldUnitPrice = 9.99m,
+                    Quantity = 3,
+                    PictureUrl = Guid.NewGuid().ToString(),
+                }
+            });
+
+        var content = new StringContent(JsonSerializer.Serialize(payload), UTF8Encoding.UTF8, "application/json")
+        {
+            Headers = { { "x-requestid", Guid.NewGuid().ToString() } }
+        };
+        var response = await _httpClient.PostAsync("api/orders/draft", content);
+        var s = await response.Content.ReadAsStringAsync();
+        var responseData = JsonSerializer.Deserialize<OrderDraftDTO>(s, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(3, responseData.OrderItems.First().Quantity);
+        Assert.Equal(10.99m, responseData.OrderItems.First().UnitPrice);
+        Assert.Equal(32.97m, responseData.Total);
     }
 
     private static void AssertThatOrderItemsAreTheSameAsRequestPayloadItems(CreateOrderDraftCommand payload, OrderDraftDTO responseData)

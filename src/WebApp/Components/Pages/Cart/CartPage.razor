@@ -35,7 +35,7 @@
                         <img alt="@item.ProductName" src="@ProductImages.GetProductImageUrl(item.ProductId)" />
                         <div class="catalog-item-content">
                             <p class="name">@item.ProductName</p>
-                            <p class="price">$@item.UnitPrice.ToString("0.00")</p>
+                            <p class="price">€@item.UnitPrice.ToString("0.00")</p>
                         </div>
                     </div>
                     <div class="catalog-item-quantity">
@@ -43,21 +43,21 @@
                             <input type="hidden" name="_handler" value="update-cart" />
                             <AntiforgeryToken />
                             <input aria-label="product quantity" type="number" name="UpdateQuantityValue" value="@quantity" min="0" />
-                            <button type="submit" 
+                            <button type="submit"
                                     class="button button-secondary"
-                                    name="UpdateQuantityId" 
+                                    name="UpdateQuantityId"
                                     value="@item.ProductId">
                                 Update
                             </button>
                         </form>
                     </div>
                     <div class="catalog-item-total">
-                        $@((item.UnitPrice * quantity).ToString("0.00"))
+                        €@((item.UnitPrice * quantity).ToString("0.00"))
                     </div>
                 </div>
             }
         </div>
-       
+
 
         <div class="cart-summary">
             <div class="cart-summary-container">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="cart-summary-total">
                     <div>Total</div>
-                    <div>$@TotalPrice?.ToString("0.00")</div>
+                    <div>€@TotalPrice?.ToString("0.00")</div>
                 </div>
                 <a href="checkout" class="button button-primary">Check out</a>
                 <a href="" class="cart-summary-link">

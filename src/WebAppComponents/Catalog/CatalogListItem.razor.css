@@ -18,8 +18,11 @@
     border: 0;
 }
 
-.catalog-product-image img {
+.catalog-product-image img,
+img.catalog-product-image,
+.catalog-product img {
     max-width: 100%;
+    border-radius: 0.5rem;
 }
 
 .catalog-product .catalog-product-content {
@@ -50,14 +53,14 @@
 }
 
 
-@media only screen and (max-width: 480px) { 
+@media only screen and (max-width: 480px) {
     .catalog-item {
         flex-basis: calc(100% - 2rem);
-    }    
+    }
 }
 
-@media only screen and (min-width: 481px) and (max-width: 1024px) { 
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
     .catalog-item {
         flex-basis: calc(50% - 3rem);
-    }    
+    }
 }

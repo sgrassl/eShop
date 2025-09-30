@@ -8,7 +8,7 @@ public class BasketMockService : IBasketService
 
     public BasketMockService()
     {
-        _mockCustomBasket = new CustomerBasket {BuyerId = "9245fe4a-d402-451c-b9ed-9c1a04247482"};
+        _mockCustomBasket = new CustomerBasket { BuyerId = "9245fe4a-d402-451c-b9ed-9c1a04247482" };
         _mockCustomBasket.AddItemToBasket(new BasketItem
         {
             Id = "1",
@@ -16,7 +16,7 @@ public class BasketMockService : IBasketService
             ProductId = Common.Common.MockCatalogItemId01,
             ProductName = ".NET Bot Blue Sweatshirt (M)",
             Quantity = 1,
-            UnitPrice = 19.50M
+            UnitPrice = 19.99M
         });
 
         _mockCustomBasket.AddItemToBasket(new BasketItem
@@ -26,7 +26,7 @@ public class BasketMockService : IBasketService
             ProductId = Common.Common.MockCatalogItemId04,
             ProductName = ".NET Black Cup",
             Quantity = 1,
-            UnitPrice = 17.00M
+            UnitPrice = 17.99M
         });
     }
 

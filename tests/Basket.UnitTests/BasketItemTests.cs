@@ -16,8 +16,8 @@ namespace eShop.Basket.API.Model
                 Id = "1",
                 ProductId = 10,
                 ProductName = "Test Product",
-                UnitPrice = 5.0m,
-                OldUnitPrice = 8.0m,
+                UnitPrice = 5.99m,
+                OldUnitPrice = 8.99m,
                 Quantity = 2,
                 PictureUrl = "test.jpg"
             };
