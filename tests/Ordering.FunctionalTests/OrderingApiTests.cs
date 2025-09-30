@@ -251,7 +251,7 @@ public sealed class OrderingApiTests : IClassFixture<OrderingApiFixture>
         var responseData = JsonSerializer.Deserialize<OrderDraftDTO>(s, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Equal(3, responseData.OrderItems.First().Quantity);
+        Assert.Equal(3, responseData.OrderItems.First().Units);
         Assert.Equal(10.99m, responseData.OrderItems.First().UnitPrice);
         Assert.Equal(32.97m, responseData.Total);
     }
