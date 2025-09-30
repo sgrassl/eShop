@@ -1,7 +1,13 @@
-﻿namespace eShop.Basket.API.Model;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace eShop.Basket.API.Model;
 
 public class BasketItem : IValidatableObject
 {
+    public BasketItem()
+    {
+    }
+
     public string Id { get; set; }
     public int ProductId { get; set; }
     public string ProductName { get; set; }
@@ -77,169 +83,78 @@ public class BasketItem : IValidatableObject
     }
 
     /// <summary>
-    /// Provides enhanced validation for basket items with improved performance, detailed error messages, and additional business rules.
+    /// Performs advanced validation of the basket item properties to ensure they meet extended business rules and constraints.
+    /// This method focuses on advanced business logic validation beyond basic field validation.
     /// </summary>
-    /// <param name="validationContext">
-    /// The validation context that provides additional information about the validation operation.
-    /// Can include custom validation parameters in the Items dictionary (e.g., "MaxItemValue" for configurable limits).
-    /// </param>
+    /// <param name="validationContext">The validation context that provides additional information about the validation operation.</param>
     /// <returns>
-    /// A lazy-evaluated collection of <see cref="ValidationResult"/> objects describing any validation errors found.
-    /// Uses yield return for better memory efficiency when processing large collections.
-    /// Returns an empty collection if the basket item is valid.
+    /// A collection of <see cref="ValidationResult"/> objects describing any validation errors found.
+    /// Returns an empty collection if the basket item is valid according to advanced rules.
     /// </returns>
     /// <remarks>
-    /// This enhanced validation method provides the following improvements over the standard <see cref="Validate"/> method:
+    /// This method validates the following advanced rules:
     /// <list type="bullet">
-    /// <item><description><strong>Performance:</strong> Uses yield return for lazy evaluation and better memory usage</description></item>
-    /// <item><description><strong>Enhanced validation rules:</strong> Includes additional constraints like maximum values and length limits</description></item>
-    /// <item><description><strong>Cross-field validation:</strong> Validates relationships between fields (e.g., price comparisons)</description></item>
-    /// <item><description><strong>Business rules:</strong> Enforces total value limits and configurable constraints</description></item>
-    /// <item><description><strong>Better error messages:</strong> Provides more descriptive and user-friendly validation messages</description></item>
+    /// <item><description>Quantity cannot exceed 100 items per product</description></item>
+    /// <item><description>UnitPrice cannot exceed 10,000</description></item>
+    /// <item><description>ProductName must be between 3 and 100 characters</description></item>
+    /// <item><description>OldUnitPrice should be greater than or equal to UnitPrice when representing a discount</description></item>
+    /// <item><description>Discount percentage cannot exceed 90%</description></item>
+    /// <item><description>PictureUrl should use HTTPS for security</description></item>
     /// </list>
-    ///
-    /// <para><strong>Validation Rules Applied:</strong></para>
-    /// <list type="number">
-    /// <item><description>Id: Required, non-empty string</description></item>
-    /// <item><description>ProductId: Must be positive integer</description></item>
-    /// <item><description>ProductName: Required, non-empty, max 250 characters</description></item>
-    /// <item><description>UnitPrice: Non-negative, max $999,999.99</description></item>
-    /// <item><description>OldUnitPrice: Non-negative, max $999,999.99</description></item>
-    /// <item><description>Quantity: Min 1, max 9,999 items</description></item>
-    /// <item><description>PictureUrl: Required, valid absolute HTTP/HTTPS URL</description></item>
-    /// <item><description>Price consistency: Warns if current price is significantly higher than old price</description></item>
-    /// <item><description>Total value: Price × Quantity cannot exceed $999,999.99</description></item>
-    /// <item><description>Configurable limits: Respects MaxItemValue from validation context if provided</description></item>
-    /// </list>
-    ///
-    /// <para><strong>Usage with custom validation context:</strong></para>
-    /// <code>
-    /// var context = new ValidationContext(basketItem);
-    /// context.Items["MaxItemValue"] = 50000m; // Set custom maximum item value
-    /// var results = basketItem.ValidateEnhanced(context);
-    /// </code>
     /// </remarks>
-    public IEnumerable<ValidationResult> ValidateEnhanced(ValidationContext validationContext)
+    public IEnumerable<ValidationResult> ValidateAdvanced(ValidationContext validationContext)
     {
-        // Validate Id - required and should be a non-empty string
-        if (string.IsNullOrWhiteSpace(Id))
+        var results = new List<ValidationResult>();
+
+        // Advanced business rules validation
+        if (Quantity > 100)
         {
-            yield return new ValidationResult(
-                "Basket item identifier is required and cannot be empty.",
-                new[] { nameof(Id) });
+            results.Add(new ValidationResult("Quantity cannot exceed 100 items per product", new[] { "Quantity" }));
         }
 
-        // Validate ProductId - must be a positive integer
-        if (ProductId <= 0)
+        if (UnitPrice > 10000m)
         {
-            yield return new ValidationResult(
-                "Product identifier must be a positive number greater than zero.",
-                new[] { nameof(ProductId) });
+            results.Add(new ValidationResult("UnitPrice cannot exceed 10000", new[] { "UnitPrice" }));
         }
 
-        // Validate ProductName - required with reasonable length constraints
-        if (string.IsNullOrWhiteSpace(ProductName))
+        if (!string.IsNullOrWhiteSpace(ProductName))
         {
-            yield return new ValidationResult(
-                "Product name is required and cannot be empty.",
-                new[] { nameof(ProductName) });
-        }
-        else if (ProductName.Length > 250)
-        {
-            yield return new ValidationResult(
-                "Product name cannot exceed 250 characters.",
-                new[] { nameof(ProductName) });
-        }
-
-        // Validate UnitPrice - must be non-negative (free items allowed)
-        if (UnitPrice < 0)
-        {
-            yield return new ValidationResult(
-                "Unit price cannot be negative. Use zero for free items.",
-                new[] { nameof(UnitPrice) });
-        }
-        else if (UnitPrice > 999999.99m)
-        {
-            yield return new ValidationResult(
-                "Unit price cannot exceed $999,999.99.",
-                new[] { nameof(UnitPrice) });
-        }
-
-        // Validate OldUnitPrice - must be non-negative
-        if (OldUnitPrice < 0)
-        {
-            yield return new ValidationResult(
-                "Previous unit price cannot be negative.",
-                new[] { nameof(OldUnitPrice) });
-        }
-        else if (OldUnitPrice > 999999.99m)
-        {
-            yield return new ValidationResult(
-                "Previous unit price cannot exceed $999,999.99.",
-                new[] { nameof(OldUnitPrice) });
-        }
-
-        // Validate Quantity - must be positive with reasonable upper limit
-        if (Quantity < 1)
-        {
-            yield return new ValidationResult(
-                "Quantity must be at least 1. Remove the item if no longer needed.",
-                new[] { nameof(Quantity) });
-        }
-        else if (Quantity > 9999)
-        {
-            yield return new ValidationResult(
-                "Quantity cannot exceed 9,999 items per basket item.",
-                new[] { nameof(Quantity) });
-        }
-
-        // Validate PictureUrl - required and must be a valid absolute URL
-        if (string.IsNullOrWhiteSpace(PictureUrl))
-        {
-            yield return new ValidationResult(
-                "Product picture URL is required.",
-                new[] { nameof(PictureUrl) });
-        }
-        else if (!Uri.TryCreate(PictureUrl, UriKind.Absolute, out var uri))
-        {
-            yield return new ValidationResult(
-                "Product picture URL must be a valid absolute URL.",
-                new[] { nameof(PictureUrl) });
-        }
-        else if (uri.Scheme != "http" && uri.Scheme != "https")
-        {
-            yield return new ValidationResult(
-                "Product picture URL must use HTTP or HTTPS protocol.",
-                new[] { nameof(PictureUrl) });
-        }
-
-        // Cross-field validation: Price comparison logic
-        if (UnitPrice > 0 && OldUnitPrice > 0 && UnitPrice > OldUnitPrice * 10)
-        {
-            yield return new ValidationResult(
-                "Current price appears to be significantly higher than the previous price. Please verify pricing.",
-                new[] { nameof(UnitPrice), nameof(OldUnitPrice) });
-        }
-
-        // Business rule: Total value validation
-        var totalValue = UnitPrice * Quantity;
-        if (totalValue > 999999.99m)
-        {
-            yield return new ValidationResult(
-                "Total item value (price × quantity) cannot exceed $999,999.99.",
-                new[] { nameof(UnitPrice), nameof(Quantity) });
-        }
-
-        // Additional business validation could be added here based on context
-        // For example, checking against inventory, user limits, etc.
-        if (validationContext?.Items?.ContainsKey("MaxItemValue") == true)
-        {
-            if (validationContext.Items["MaxItemValue"] is decimal maxValue && totalValue > maxValue)
+            if (ProductName.Length < 3)
             {
-                yield return new ValidationResult(
-                    $"Total item value cannot exceed the configured maximum of {maxValue:C}.",
-                    new[] { nameof(UnitPrice), nameof(Quantity) });
+                results.Add(new ValidationResult("ProductName must be at least 3 characters long", new[] { "ProductName" }));
+            }
+
+            if (ProductName.Length > 100)
+            {
+                results.Add(new ValidationResult("ProductName cannot exceed 100 characters", new[] { "ProductName" }));
             }
         }
+
+        // Discount logic validation
+        if (OldUnitPrice > 0 && UnitPrice > 0 && OldUnitPrice < UnitPrice)
+        {
+            results.Add(new ValidationResult("OldUnitPrice should be greater than or equal to current UnitPrice when representing a discount", new[] { "OldUnitPrice" }));
+        }
+
+        // Check for excessive discount percentage (> 90%)
+        if (OldUnitPrice > 0 && UnitPrice > 0)
+        {
+            var discountPercentage = (OldUnitPrice - UnitPrice) / OldUnitPrice * 100;
+            if (discountPercentage > 90m)
+            {
+                results.Add(new ValidationResult("Discount percentage cannot exceed 90%", new[] { "OldUnitPrice" }));
+            }
+        }
+
+        // Security validation for PictureUrl
+        if (!string.IsNullOrWhiteSpace(PictureUrl) && Uri.TryCreate(PictureUrl, UriKind.Absolute, out var uri))
+        {
+            if (uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase))
+            {
+                results.Add(new ValidationResult("PictureUrl should use HTTPS for security", new[] { "PictureUrl" }));
+            }
+        }
+
+        return results;
     }
 }
